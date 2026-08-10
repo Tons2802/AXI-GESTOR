@@ -1,0 +1,1218 @@
+{
+  "name": "AXI-GESTOR",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 360137494,
+          "mode": "list",
+          "cachedResultName": "ESTOQUE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID/edit#gid=360137494"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "PRODUTO": "={{ $json.PRODUTO }}",
+            "QTD DISPONIVEL": "={{ $('Code in JavaScript1').item.json.QTD_NOVA }}",
+            "QTD RESERVADA": "={{ Number($json['QTD RESERVADA']) + Number($json.TOTAL_PEDIDO) }}"
+          },
+          "matchingColumns": [
+            "PRODUTO"
+          ],
+          "schema": [
+            {
+              "id": "PRODUTO",
+              "displayName": "PRODUTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "QTD DISPONIVEL",
+              "displayName": "QTD DISPONIVEL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "QTD RESERVADA",
+              "displayName": "QTD RESERVADA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "QTD REAL",
+              "displayName": "QTD REAL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        304
+      ],
+      "id": "86d1b185-a44a-496b-b942-8d43596257ca",
+      "name": "Update row in sheet1",
+      "executeOnce": false,
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ESTOQUE",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "PRODUTO",
+              "lookupValue": "={{ $json.PRODUTO }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -80,
+        320
+      ],
+      "id": "a47e1700-3fa9-421c-8c4b-ae259b899daf",
+      "name": "Get row(s) in sheet2",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1728,
+        176
+      ],
+      "id": "d517cb79-9b56-44df-8f2d-da3660c2a8c7",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_FORMULARIO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Respostas ao formulário 1",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "PROCESSADOS",
+              "lookupValue": "NÃO"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1520,
+        176
+      ],
+      "id": "eafa74dd-d979-469e-a249-d6012b5f94c3",
+      "name": "Get row(s) in sheet3",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ESTRUTURA",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1088,
+        -48
+      ],
+      "id": "2a24d458-4dff-444e-830e-1c232c8db6ab",
+      "name": "Get row(s) in sheet4",
+      "executeOnce": true,
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const allRows = $('Get row(s) in sheet3').all();\nconst nivel2Rows = $('NIVEL_2').all();\nconst results = [];\nconst estoqueCalc = {};\n\nconst produtosComEstoque = [\n  'JAGUAR 10L', 'JAGUAR 30L', 'JAGUAR 60L', 'JAGUAR 90L',\n  'JSN SUPORTE 100L', 'JSN SUPORTE 20L', 'JSN SUPORTE 40L', 'JSN SUPORTE 60L',\n  'LP 100L', 'LP 60L', 'PAPELEIRA P2 LP 50L',\n  'CESTO JAGUAR 10L BRANCO', 'CESTO JAGUAR 30L BRANCO', 'CESTO JAGUAR 60L BRANCO', 'CESTO JAGUAR 93L BRANCO',\n  'CESTO JAGUAR 10L PRETO', 'CESTO JAGUAR 30L PRETO', 'CESTO JAGUAR 60L PRETO', 'CESTO JAGUAR 93L PRETO',\n  'CESTO JSN 20L', 'CESTO JSN 40L', 'CESTO JSN 60L', 'CESTO JSN 100L',\n  'QUADRO BOLA 60L', 'QUADRO BOLA 100L', 'VARAO B2', 'VARAO B3'\n];\n\nfor (const row of allRows) {\n  const produto = row.json['PRODUTO'];\n  const quantidade = Number(row.json['QUANTIDADE']);\n  const nivel2Componentes = nivel2Rows.filter(n => n.json['PRODUTO'] === produto);\n\n  if (nivel2Componentes.length > 0) {\n    for (const n2 of nivel2Componentes) {\n      const compN2 = n2.json['COMPONENTE'];\n      const qtdN2 = Number(n2.json['QUANTIDADE']) * quantidade;\n\n      const estoqueRow = $('Get row(s) in sheet5').all()\n        .find(e => e.json['PRODUTO'] === compN2);\n\n      const qtdDisponivel = estoqueRow ? Number(estoqueRow.json['QTD DISPONIVEL']) : 0;\n      const margem = estoqueRow ? Number(estoqueRow.json['MARGEM DE SEGURANÇA']) || 0 : 0;\n      const estoqueRowNumber = estoqueRow ? estoqueRow.json['row_number'] : null;\n\n      if (!estoqueCalc[compN2]) {\n        estoqueCalc[compN2] = { qtd: 0, row_number: estoqueRowNumber, qtdDisponivel, margem };\n      }\n      estoqueCalc[compN2].qtd += qtdN2;\n    }\n\n  } else if (produtosComEstoque.includes(produto)) {\n    const estoqueRow = $('Get row(s) in sheet5').all()\n      .find(e => e.json['PRODUTO'] === produto);\n\n    const qtdDisponivel = estoqueRow ? Number(estoqueRow.json['QTD DISPONIVEL']) : 0;\n    const margem = estoqueRow ? Number(estoqueRow.json['MARGEM DE SEGURANÇA']) || 0 : 0;\n    const estoqueRowNumber = estoqueRow ? estoqueRow.json['row_number'] : null;\n\n    if (!estoqueCalc[produto]) {\n      estoqueCalc[produto] = { qtd: 0, row_number: estoqueRowNumber, qtdDisponivel, margem };\n    }\n    estoqueCalc[produto].qtd += quantidade;\n  }\n}\n\nconst osGerada = {};\n\nfor (const row of allRows) {\n  const produto = row.json['PRODUTO'];\n  const quantidade = Number(row.json['QUANTIDADE']);\n  const rowNumber = row.json['row_number'];\n  const cliente = row.json['CLIENTE'];\n  const nPedido = row.json['Nº do Pedido'] ?? row.json['No do Pedido'] ?? row.json['N_PEDIDO'] ?? '';\n  const obs = row.json['OBS'] ?? '';\n\n  const agora = new Date();\n  const dataObj = new Date(agora.toLocaleString('en-US', {timeZone: 'America/Sao_Paulo'}));\n  const data = dataObj.getFullYear() + '-' +\n    String(dataObj.getMonth()+1).padStart(2,'0') + '-' +\n    String(dataObj.getDate()).padStart(2,'0');\n\n  const idOS = 'OS-' +\n    String(agora.getDate()).padStart(2,'0') +\n    String(agora.getMonth()+1).padStart(2,'0') +\n    String(agora.getHours()).padStart(2,'0') +\n    String(agora.getMinutes()).padStart(2,'0') +\n    '-' + rowNumber;\n\n  const nivel2Componentes = nivel2Rows.filter(n => n.json['PRODUTO'] === produto);\n\n  if (nivel2Componentes.length > 0) {\n    const faltam = [];\n    const faltamDetalhes = [];\n\n    for (const n2 of nivel2Componentes) {\n      const compN2 = n2.json['COMPONENTE'];\n      const qtdN2 = Number(n2.json['QUANTIDADE']) * quantidade;\n      const info = estoqueCalc[compN2] || { qtd: 0, qtdDisponivel: 0, margem: 0 };\n\n      const estoqueRowAtual = $('Get row(s) in sheet5').all()\n        .find(e => e.json['PRODUTO'] === compN2);\n      const margemAtual = estoqueRowAtual ? Number(estoqueRowAtual.json['MARGEM DE SEGURANÇA']) || 0 : 0;\n      const estoqueApos = info.qtdDisponivel - info.qtd;\n\n      const faltaEstoque = info.qtdDisponivel < qtdN2;\n      const abaixoMargem = estoqueApos < margemAtual && !faltaEstoque;\n\n      if ((faltaEstoque || abaixoMargem) && !faltamDetalhes.find(f => f.produto === compN2)) {\n        if (faltaEstoque && !faltam.includes(compN2)) {\n          faltam.push(compN2);\n        }\n        const qtdProduzir = margemAtual > 0 ? margemAtual - estoqueApos : Math.abs(estoqueApos);\n        const estruturaComps = $('Get row(s) in sheet4').all()\n          .filter(c => c.json['Produto'] === compN2)\n          .map(c => ({\n            componente: c.json['Componente'],\n            quantidade: Number(c.json['Quantidade'])\n          }));\n        faltamDetalhes.push({\n          produto: compN2,\n          qtdFalta: qtdProduzir,\n          margem: margemAtual,\n          idOS: idOS,\n          componentes: estruturaComps\n        });\n      }\n    }\n\n    const faltamUnicos = [...new Set(faltam)];\n    const producao = faltamUnicos.length > 0 ? 'SIM' : 'NÃO';\n    // ← OBS separada da SITUAÇÃO\n    const situacao = faltamUnicos.length > 0 ? 'Falta: ' + faltamUnicos.join(', ') : '';\n\n    results.push({\n      json: {\n        CLIENTE: cliente,\n        PRODUTO: produto,\n        QTD: quantidade,\n        N_PEDIDO: nPedido,\n        DATA: data,\n        OBS: obs,              // ← OBS original do vendedor\n        'SITUAÇÃO': situacao,  // ← campo do sistema\n        'PRODUÇÃO': producao,\n        FALTAM: JSON.stringify(faltamDetalhes),\n        row_number: rowNumber,\n        _tipo: 'MONTAGEM'\n      }\n    });\n\n  } else if (produtosComEstoque.includes(produto)) {\n    const info = estoqueCalc[produto] || { qtd: 0, qtdDisponivel: 0, margem: 0 };\n\n    const estoqueRowAtual = $('Get row(s) in sheet5').all()\n      .find(e => e.json['PRODUTO'] === produto);\n    const margemAtual = estoqueRowAtual ? Number(estoqueRowAtual.json['MARGEM DE SEGURANÇA']) || 0 : 0;\n    const estoqueApos = info.qtdDisponivel - info.qtd;\n\n    const temEstoque = info.qtdDisponivel >= quantidade;\n    const producao = temEstoque ? 'NÃO' : 'SIM';\n    // ← OBS separada da SITUAÇÃO\n    const situacao = !temEstoque ? 'Falta: ' + produto : '';\n\n    const faltamDetalhes = [];\n    if (!temEstoque) {\n      const qtdProduzir = margemAtual > 0 ? margemAtual - estoqueApos : Math.abs(estoqueApos);\n      const estruturaComps = $('Get row(s) in sheet4').all()\n        .filter(c => c.json['Produto'] === produto)\n        .map(c => ({\n          componente: c.json['Componente'],\n          quantidade: Number(c.json['Quantidade'])\n        }));\n      faltamDetalhes.push({\n        produto: produto,\n        qtdFalta: qtdProduzir,\n        margem: margemAtual,\n        idOS: idOS,\n        componentes: estruturaComps\n      });\n    }\n\n    results.push({\n      json: {\n        CLIENTE: cliente,\n        PRODUTO: produto,\n        QTD: quantidade,\n        N_PEDIDO: nPedido,\n        DATA: data,\n        OBS: obs,              // ← OBS original do vendedor\n        'SITUAÇÃO': situacao,  // ← campo do sistema\n        'PRODUÇÃO': producao,\n        FALTAM: JSON.stringify(faltamDetalhes),\n        row_number: rowNumber,\n        _tipo: 'MONTAGEM'\n      }\n    });\n\n    if (!osGerada[produto]) {\n      if (estoqueApos < margemAtual || estoqueApos < 0) {\n        const qtdProduzir = margemAtual > 0 ? margemAtual - estoqueApos : Math.abs(estoqueApos);\n        const componentes = $('Get row(s) in sheet4').all()\n          .filter(c => c.json['Produto'] === produto);\n\n        for (const comp of componentes) {\n          const qtdComp = Number(comp.json['Quantidade']) * qtdProduzir;\n          results.push({\n            json: {\n              ID_OS: idOS,\n              PRODUTO: comp.json['Produto'],\n              COMPONENTES: comp.json['Componente'],\n              QTD: qtdComp,\n              DATA: data,\n              OPERADOR: '',\n              STATUS: '',\n              QTD_PROD_FINAL: qtdProduzir,\n              OBS: 'REPOSIÇÃO',\n              CLIENTE: 'ESTOQUE',\n              N_PEDIDO: 'INTERNO',\n              row_number: rowNumber,\n              _tipo: 'OS'\n            }\n          });\n        }\n        osGerada[produto] = true;\n      }\n    }\n\n  } else {\n    const componentes = $('Get row(s) in sheet4').all()\n      .filter(c => c.json['Produto'] === produto);\n\n    for (const comp of componentes) {\n      const qtdComp = Number(comp.json['Quantidade']) * quantidade;\n      results.push({\n        json: {\n          ID_OS: idOS,\n          PRODUTO: comp.json['Produto'],\n          COMPONENTES: comp.json['Componente'],\n          QTD: qtdComp,\n          DATA: data,\n          OPERADOR: '',\n          STATUS: '',\n          QTD_PROD_FINAL: quantidade,\n          OBS: obs,\n          CLIENTE: cliente,\n          N_PEDIDO: nPedido,\n          row_number: rowNumber,\n          _tipo: 'OS'\n        }\n      });\n    }\n  }\n}\n\nfor (const [produto, info] of Object.entries(estoqueCalc)) {\n  results.push({\n    json: {\n      PRODUTO: produto,\n      TOTAL_PEDIDO: info.qtd,\n      QTD_NOVA: info.qtdDisponivel - info.qtd,\n      row_number: info.row_number,\n      _tipo: 'ESTOQUE'\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -624,
+        176
+      ],
+      "id": "97fa1367-5994-44d7-b224-8241a0b5568c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "OS",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID_OS": "={{ $json.ID_OS }}",
+            "PRODUTO": "={{ $json.PRODUTO }}",
+            "COMPONENTES": "={{ $json.COMPONENTES }}",
+            "QTD": "={{ $json.QTD }}",
+            "DATA": "={{ $json.DATA }}",
+            "OPERADOR": "={{ $json.OPERADOR }}",
+            "STATUS": "={{ $json.STATUS }}",
+            "QTD_PROD_FINAL": "={{ $json.QTD_PROD_FINAL\n}}",
+            "OBS": "={{ $json.OBS }}",
+            "CLIENTE": "={{ $json.CLIENTE }}",
+            "Nº PEDIDO": "={{ $json.N_PEDIDO}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID_OS",
+              "displayName": "ID_OS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "PRODUTO",
+              "displayName": "PRODUTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "COMPONENTES",
+              "displayName": "COMPONENTES",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "QTD",
+              "displayName": "QTD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "OPERADOR",
+              "displayName": "OPERADOR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "QTD_PROD_FINAL",
+              "displayName": "QTD_PROD_FINAL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "OBS",
+              "displayName": "OBS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CLIENTE",
+              "displayName": "CLIENTE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nº PEDIDO",
+              "displayName": "Nº PEDIDO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        -144
+      ],
+      "id": "162ad31b-efd9-423c-bc46-059fbd74484f",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_FORMULARIO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Respostas ao formulário 1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "PROCESSADOS": "SIM"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Carimbo de data/hora",
+              "displayName": "Carimbo de data/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PRODUTO",
+              "displayName": "PRODUTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "QUANTIDADE",
+              "displayName": "QUANTIDADE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PROCESSADOS",
+              "displayName": "PROCESSADOS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1440,
+        96
+      ],
+      "id": "5699479f-c483-4518-bc48-1b0bfe94e6bc",
+      "name": "Update row in sheet2",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "afda5a00-fc8e-4f1b-b5e8-8dbf14b25599",
+              "leftValue": "={{ $json.PROCESSADOS }}",
+              "rightValue": "SIM",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1312,
+        176
+      ],
+      "id": "a7ece26b-5d95-4221-8b06-5d62548e0177",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "list",
+          "cachedResultName": "ORDEM_DE_PRODUÇÃO",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 498136236,
+          "mode": "list",
+          "cachedResultName": "NIVEL 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID/edit#gid=498136236"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1088,
+        384
+      ],
+      "id": "a8a05a9a-00ea-41d5-b547-ca7e9079022c",
+      "name": "NIVEL_2",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json._tipo }}",
+                    "rightValue": "OS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b0819571-00c0-4e67-8be8-92ed84a3f770"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "20e2cebd-81ab-4ded-8546-e8ba9af91437",
+                    "leftValue": "={{ $json._tipo }}",
+                    "rightValue": "MONTAGEM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0270c422-bc54-4841-86ee-7bba68736d7c",
+                    "leftValue": "={{ $json._tipo }}",
+                    "rightValue": "ESTOQUE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -432,
+        160
+      ],
+      "id": "be13f2a7-8eaa-4d37-ac34-00383b2f8a3c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "list",
+          "cachedResultName": "ORDEM_DE_PRODUÇÃO",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1310370965,
+          "mode": "list",
+          "cachedResultName": "MONTAGEM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID/edit#gid=1310370965"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "CLIENTE": "={{ $json.CLIENTE }}",
+            "PRODUTO": "={{ $json.PRODUTO }}",
+            "QTD": "={{ $json.QTD }}",
+            "Nº PEDIDO": "={{ $json.N_PEDIDO }}",
+            "DATA": "={{ $json.DATA }}",
+            "OBS": "={{ $json.OBS }}",
+            "PRODUÇÃO": "={{ $json['PRODUÇÃO'] }}",
+            "SITUAÇÃO": "={{ $json['SITUAÇÃO'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "CLIENTE",
+              "displayName": "CLIENTE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PRODUTO",
+              "displayName": "PRODUTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "QTD",
+              "displayName": "QTD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nº PEDIDO",
+              "displayName": "Nº PEDIDO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "OBS",
+              "displayName": "OBS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "PRODUÇÃO",
+              "displayName": "PRODUÇÃO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "SITUAÇÃO",
+              "displayName": "SITUAÇÃO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        592,
+        48
+      ],
+      "id": "ba6eae88-524a-4a4f-a3c9-40a7a949f77e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/SUA_PLANILHA_PRODUCAO_ID",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ESTOQUE",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1088,
+        176
+      ],
+      "id": "4dc62165-229a-4941-84f4-ad27f3763e59",
+      "name": "Get row(s) in sheet5",
+      "credentials": {
+        "googleApi": {
+          "id": "SEU_CREDENTIAL_ID",
+          "name": "Google Service Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -880,
+        160
+      ],
+      "id": "37d72551-7c47-4a36-9191-2b26a03c106d",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        32
+      ],
+      "id": "d9155d2a-8ac8-4250-9751-5108cd68cc57",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "65e5eb35-69d9-47f3-99da-16ffcc040461",
+              "leftValue": "={{ $json['PRODUÇÃO']",
+              "rightValue": "SIM",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        144
+      ],
+      "id": "7f34c090-8175-4fb7-839a-50a9a6472850",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst faltam = JSON.parse(item.FALTAM || '[]');\nconst results = [];\n\nconst agora = new Date();\nconst dataObj = new Date(agora.toLocaleString('en-US', {timeZone: 'America/Sao_Paulo'}));\nconst data = dataObj.getFullYear() + '-' +\n  String(dataObj.getMonth()+1).padStart(2,'0') + '-' +\n  String(dataObj.getDate()).padStart(2,'0');\n\n// Gera OS para cada componente que falta\nfor (const falta of faltam) {\n  for (const comp of falta.componentes) {\n    const qtdComp = comp.quantidade * falta.qtdFalta;\n    results.push({\n      json: {\n        ID_OS: falta.idOS,\n        PRODUTO: falta.produto,\n        COMPONENTES: comp.componente,\n        QTD: qtdComp,\n        DATA: data,\n        OPERADOR: '',\n        STATUS: '',\n        QTD_PROD_FINAL: falta.qtdFalta,\n        OBS: 'REPOSIÇÃO',\n        CLIENTE: 'ESTOQUE',\n        N_PEDIDO: 'INTERNO',\n        row_number: item.row_number,\n        _tipo: 'OS'\n      }\n    });\n  }\n}\n\n// Retorna também o item de MONTAGEM original\nresults.push({\n  json: {\n    CLIENTE: item.CLIENTE,\n    PRODUTO: item.PRODUTO,\n    QTD: item.QTD,\n    N_PEDIDO: item.N_PEDIDO,\n    DATA: item.DATA,\n    OBS: item.OBS,              // ← OBS original do vendedor\n    'SITUAÇÃO': item['SITUAÇÃO'], // ← campo do sistema\n    'PRODUÇÃO': item['PRODUÇÃO'],\n    row_number: item.row_number,\n    _tipo: 'MONTAGEM'\n  }\n});\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        -160
+      ],
+      "id": "4f229d2b-31c7-45e1-9015-350e4aec6cb1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json._tipo }}",
+                    "rightValue": "OS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3c985bc4-c1d3-4de0-9a64-aa288adccb6f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "36816771-8b49-45b6-b9b5-2e10fc514f15",
+                    "leftValue": "={{ $json._tipo }}",
+                    "rightValue": "MONTAGEM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        -192
+      ],
+      "id": "4f8dce52-82c6-46af-a786-5b79129b94c8",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $('Code in JavaScript1').all();\nconst vistos = new Set();\nconst unicos = [];\n\nfor (const item of items) {\n  const rn = item.json.row_number;\n  if (rn !== undefined && rn !== null && !vistos.has(rn)) {\n    vistos.add(rn);\n    unicos.push({\n      json: {\n        row_number: rn,\n        PROCESSADOS: 'SIM'\n      }\n    });\n  }\n}\n\nreturn unicos;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        96
+      ],
+      "id": "60e28444-3008-41e6-91e6-d2d8723d9ae1",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get row(s) in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet3": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet4": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "NIVEL_2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NIVEL_2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get row(s) in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet5": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet2": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e383b396-0fce-46aa-992a-5ecbd16ddd55",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "SEU_INSTANCE_ID"
+  },
+  "id": "ArdEuP8SIB8Y4mkz",
+  "tags": []
+}
